@@ -54,20 +54,13 @@
     <div class="row mt-4">
       <div class="col-md-4">
         <h2>Cadastro do Perfume</h2>
-        <!-- Campo Nome -->
         <input class="form-control mt-3" type="text" placeholder="Nome" v-model="nome" />
-        <!-- Campo Marca -->
         <input class="form-control mt-3" type="text" placeholder="Marca" v-model="marca" />
-        <!-- Campo URL da Imagem -->
         <input class="form-control mt-3" type="url" placeholder="URL da Imagem" v-model="imagem" />
-        <!-- Campo Volume -->
         <input class="form-control mt-3" type="number" placeholder="Volume (ml)" v-model="volume" />
-        <!-- Campo Ano de Lançamento -->
         <input class="form-control mt-3" type="number" placeholder="Ano de Lançamento" v-model="ano" />
-        <!-- Campo Preço -->
         <input class="form-control mt-3" type="number" placeholder="Preço (R$)" v-model="preco" />
-        
-        <!-- Preferência de Tempo -->
+
         <h5 class="mt-3">Preferência de Tempo</h5>
         <select class="form-control mt-2" v-model="tempo">
           <option value="" disabled>Selecione Dia ou Noite</option>
@@ -75,7 +68,6 @@
           <option value="Noite">Noite</option>
         </select>
 
-        <!-- Preferência de Estação -->
         <select class="form-control mt-2" v-model="estacao">
           <option value="" disabled>Selecione Frio ou Calor</option>
           <option value="Frio">Frio</option>
