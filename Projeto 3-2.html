@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark">
+  <head>
+    <title>Projeto</title>
+	<meta charset="UTF-8" />
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="vue.min.js"></script>
+	<script type="text/javascript" src="axios.min.js"></script>
+	<style>
+        body {
+            background-color: #343a40; /* Cor de fundo escura */
+        }
+        h1, h2 {
+            color: #f8f9fa; /* Cor de texto clara */
+        }
+        .form-control {
+            background-color: #495057; /* Cor de fundo dos inputs */
+            color: #f8f9fa; /* Cor do texto dos inputs */
+        }
+        .form-control::placeholder {
+            color: #ced4da; /* Cor do texto placeholder */
+        }
+        .list-group-item {
+            background-color: #495057; /* Cor de fundo dos itens da lista */
+            color: #f8f9fa; /* Cor do texto dos itens da lista */
+        }
+    </style>
+  </head>
+  <body>
+	<div class="container" id="app">
+	  <header class="text-center mt-4">
+		<img class="img-fluid" src="games1.png" alt="Games" />
+	  </header>
+	  <main>
+		<div class="row justify-content-center">
+		  <div class="col-md-5">
+			<h1>Cadastro de Jogos Digitais</h1>
+			<input class="form-control mt-3" type="text" 
+			  placeholder="Título" v-model="titulo" />
+			<input class="form-control mt-3" type="text" 
+			  placeholder="Genero" v-model="genero" />
+			<input class="form-control mt-3" type="text" 
+			  placeholder="Estúdio" v-model="estudio" />
+			<input class="form-control mt-3" type="text" 
+			  placeholder="Plataforma" v-model="plataforma" />
+			<input class="form-control mt-3" type="number" 
+			  placeholder="Ano" v-model="ano" />
+			<div v-if="verificarCampos()">
+			  <button class="btn btn-primary mt-3" @click="cadastrar">Cadastrar</button>
+		    </div>
+			<div v-else>
+			  <button class="btn btn-secondary mt-3" disabled>Cadastrar</button>
+			</div>
+			<button class="btn btn-info mt-3" @click="carregarHora()">Hora</button>
+			<p>{{ hora }}</p>
+		  </div>
+		  <div class="col-md-8">
+		    <table class="table table-striped">
+			  <thead>
+			    <tr>
+				  <th>Título</th>
+				  <th>Genero</th>
+				  <th>Estudio</th>
+				  <th>Plataforma</th>
+				  <th>Ano</th>
+				  <th>Alterar</th>
+				</tr>
+			  </thead>
+			  <tbody>
+			    <tr v-for="(novoJogo, index) in listaJogos">
+				  <td>{{ novoJogo.titulo }}</td>
+				  <td>{{ novoJogo.genero }}</td>
+				  <td>{{ novoJogo.estudio }}</td>
+				  <td>{{ novoJogo.plataforma }}</td>
+				  <td>{{ novoJogo.ano }}</td>
+				  <td><button class="btn btn-warning" @click="alterar(index)">Alterar</button></td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		</div>
+	  </main>
+	  <footer>
+		<p></p>
+	  </footer>
+	</div>
+	<script type="text/javascript">
+	  class Jogo {
+		constructor(titulo,genero,estudio,plataforma,ano) {
+		  this.titulo = titulo;
+		  this.genero = genero;
+		  this.estudio = estudio;
+		  this.plataforma = plataforma;
+		  this.ano = ano;
+		}
+	  }
+	  
+	  var app = new Vue({
+		el: '#app',
+		data: {
+		  titulo: '',
+		  genero: '',
+		  estudio: '',
+		  plataforma: '',
+		  ano: '',
+		  listaJogos: [],
+		  hora: '00:00:00'
+		},
+		methods: {
+		  verificarCampos: function() {
+			return (this.titulo != '' && this.genero != '' && this.estudio != '' && 
+			  this.plataforma != '' && this.ano != '');
+		  },
+		  cadastrar: function() {
+		    let novoJogo = new Jogo(this.titulo, this.genero, this.estudio, 
+			  this.plataforma, this.ano);
+			this.listaJogos.push(novoJogo);
+			this.titulo = '';
+			this.genero = '';
+			this.estudio = '';
+			this.plataforma = '';
+			this.ano = '';
+		  },
+		  alterar: function(posicao) {
+			this.titulo = this.listaJogos[posicao].titulo;		  
+			this.genero = this.listaJogos[posicao].genero;
+			this.estudio = this.listaJogos[posicao].estudio;
+			this.plataforma = this.listaJogos[posicao].plataforma;
+			this.ano = this.listaJogos[posicao].ano;
+		  },
+		  carregarHora: function() {
+		    axios.get('http://date.jsontest.com/')
+			  .then(res => (this.hora = res.data.time));
+		  }
+		}
+	  });
+	  
+	</script>
+  </body>
+</html>

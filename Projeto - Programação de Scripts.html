@@ -9,10 +9,9 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
     body {
-      background: url("https://images.wallpaperscraft.com/image/single/texture_pattern_black_50469_1280x720.jpg");
-      background-position: center;
+      background: url("https://images.wallpaperscraft.com/image/single/texture_pattern_black_50469_1280x720.jpg") no-repeat center center fixed;
       background-size: cover;
-      background-repeat: no-repeat;
+      background-attachment: fixed;
       font-family: 'Poppins', sans-serif;
     }
     h1 {
@@ -43,12 +42,17 @@
     .form-check-label {
       color: white;
     }
+    .list-group-item {
+      background-color: #495057;
+      color: #f8f9fa;
+    }
   </style>
+  
 </head>
 <body>
 <div class="container" id="app">
   <header class="text-center mt-4">
-    <h1>Cadastro de Perfumes</h1>
+    <h1>Minha coleção</h1>
   </header>
   <main>
     <div class="row mt-4">
@@ -92,6 +96,10 @@
 
       <div class="col-md-4">
         <h2>Lista de Perfumes</h2>
+        <p>Total de perfumes: {{ listaPerfumes.length }}</p>
+        <button class="btn btn-info mt-3" @click="carregarHora()">Hora</button>
+        <p>{{ hora }}</p>
+        
         <div v-for="(perfume, index) in listaPerfumes" class="d-flex align-items-center mb-3">
           <img :src="perfume.imagem" alt="Imagem do perfume" class="perfume-img me-3" />
           <div class="flex-grow-1">
@@ -151,7 +159,8 @@
         'Casamento',
         'Happy Hour'
       ],
-      listaPerfumes: []
+      listaPerfumes: [],
+      hora: '00:00:00'
     },
     methods: {
       verificarCampos: function() {
@@ -210,6 +219,10 @@
         this.volume = '';
         this.ano = '';
         this.preco = '';
+      },
+      carregarHora: function() {
+        axios.get('http://date.jsontest.com/')
+          .then(res => (this.hora = res.data.time));
       }
     },
     filters: {
@@ -219,5 +232,7 @@
     }
   });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
